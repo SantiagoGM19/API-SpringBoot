@@ -5,6 +5,8 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity(name = "MedicalAppointment")
 @Table(name = "medicalAppointments")
@@ -28,5 +30,19 @@ public class MedicalAppointment {
     private LocalDateTime fecha;
 
     private String appointmentType;
+
+    private List<Doctor> doctors = new ArrayList<>();
+
+    private List<Patient> patients = new ArrayList<>();
+
+    public MedicalAppointment addDoctors(Doctor doctor){
+        this.doctors.add(doctor);
+        return this;
+    }
+
+    public MedicalAppointment addPatient(Patient patient){
+        this.patients.add(patient);
+        return this;
+    }
 
 }
