@@ -1,4 +1,4 @@
-package com.training.APISpringBoot.Entities;
+package com.training.APISpringBoot.Entity;
 
 import lombok.Data;
 

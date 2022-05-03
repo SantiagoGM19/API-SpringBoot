@@ -1,4 +1,4 @@
-package com.training.APISpringBoot.Entities;
+package com.training.APISpringBoot.Entity;
 
 
 import lombok.Data;
@@ -16,18 +16,14 @@ public class MedicalAppointment {
     private Long id;
 
 
-    @OneToMany(
-            cascade = CascadeType.ALL,
-            fetch = FetchType.EAGER
-    )
-    private Long fkPatientId;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "patient_id")
+    private Patient patient;
 
 
-    @OneToMany(
-            cascade = CascadeType.ALL,
-            fetch = FetchType.EAGER
-    )
-    private Long fkDoctorId;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "doctor_id")
+    private Doctor doctor;
 
     private LocalDateTime fecha;
 
