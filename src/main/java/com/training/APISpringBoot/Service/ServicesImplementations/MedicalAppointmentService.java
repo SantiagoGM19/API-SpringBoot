@@ -3,11 +3,18 @@ package com.training.APISpringBoot.Service.ServicesImplementations;
 import com.training.APISpringBoot.Entity.Doctor;
 import com.training.APISpringBoot.Entity.MedicalAppointment;
 import com.training.APISpringBoot.Entity.Patient;
+import com.training.APISpringBoot.Repository.DoctorRepository;
 import com.training.APISpringBoot.Repository.MedicalAppointmentRepository;
+import com.training.APISpringBoot.Repository.PatientRepository;
 import com.training.APISpringBoot.Service.ServicesInterfaces.IMedicalAppointmentService;
+import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.spi.DateFormatProvider;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,29 +22,17 @@ import java.util.Optional;
 public class MedicalAppointmentService implements IMedicalAppointmentService {
 
     @Autowired
-    MedicalAppointmentRepository medicalAppointmentRepository;
+    private MedicalAppointmentRepository medicalAppointmentRepository;
 
     @Autowired
-    DoctorService doctorService;
+    private PatientRepository patientRepository;
 
     @Autowired
-    PatientService patientService;
+    private DoctorRepository doctorRepository;
 
     @Override
-    public String saveMedicalAppointment(MedicalAppointment medicalAppointment){
-        try{
-            Optional<Doctor> doctor = doctorService.getOneDoctor(medicalAppointment.getDoctor().getId());
-            Optional<Patient> patient = patientService.getOnePatient(medicalAppointment.getDoctor().getId());
-
-            medicalAppointment.addDoctors(doctor.get());
-            medicalAppointment.addPatient(patient.get());
-
-            medicalAppointmentRepository.save(medicalAppointment);
-
-        }catch (Exception error){
-            return error.getMessage();
-        }
-        return "medical appointment saved correctly";
+    public MedicalAppointment saveMedicalAppointment(MedicalAppointment medicalAppointment) {
+        return medicalAppointmentRepository.save(medicalAppointment);
     }
 
     @Override
@@ -56,6 +51,10 @@ public class MedicalAppointmentService implements IMedicalAppointmentService {
 
     @Override
     public void updateMedicalAppointment(MedicalAppointment medicalAppointment) {
+        Patient patient = patientRepository.getById(medicalAppointment.getFkPatientId());
+        Doctor doctor = doctorRepository.getById(medicalAppointment.getFkDoctorId());
+        medicalAppointment.addDoctor(doctor);
+        medicalAppointment.addPatient(patient);
         medicalAppointmentRepository.save(medicalAppointment);
     }
 

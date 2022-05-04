@@ -10,10 +10,12 @@ import javax.persistence.*;
 @Data
 public class Patient extends Person{
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
     private String medicalDescription;
 
+    private Long fkMedicalAppointmentId;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "person_id")
-    private Person person;
 }

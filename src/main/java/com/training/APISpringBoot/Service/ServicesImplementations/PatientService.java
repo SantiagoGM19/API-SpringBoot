@@ -13,11 +13,11 @@ import java.util.Optional;
 public class PatientService implements IPatientService {
 
     @Autowired
-    PatientRepository patientRepository;
+    private PatientRepository patientRepository;
 
     @Override
-    public void savePatient(Patient patient) {
-        patientRepository.save(patient);
+    public Patient savePatient(Patient patient) {
+        return patientRepository.save(patient);
     }
 
     @Override
@@ -26,16 +26,16 @@ public class PatientService implements IPatientService {
     }
 
     @Override
-    public Optional<Patient> getOnePatient(Long id) throws Exception {
+    public Patient getOnePatient(Long id) throws Exception {
         Optional<Patient> patient = patientRepository.findById(id);
         if(!patient.isEmpty()){
-            return patient;
+            return patient.get();
         }
         throw new Exception("No patient was found with this id");
     }
 
     @Override
-    public void updateMedicalDescription(Patient patient) {
+    public void updatePatient(Patient patient) {
         patientRepository.save(patient);
     }
 

@@ -5,6 +5,7 @@ import com.training.APISpringBoot.Repository.PersonRepository;
 import com.training.APISpringBoot.Service.ServicesInterfaces.IPersonService;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,11 +15,11 @@ import java.util.Optional;
 public class PersonService implements IPersonService {
 
     @Autowired
-    PersonRepository personRepository;
+    private PersonRepository personRepository;
 
     @Override
-    public void savePerson(Person person) {
-        personRepository.save(person);
+    public Person savePerson(Person person){
+        return personRepository.save(person);
     }
 
     @Override
@@ -27,10 +28,10 @@ public class PersonService implements IPersonService {
     }
 
     @Override
-    public Optional<Person> getOnePerson (Long id) throws Exception {
+    public Person getOnePerson (Long id) throws Exception {
          Optional<Person> person = personRepository.findById(id);
          if(!person.isEmpty()){
-             return person;
+             return person.get();
          }
          throw new Exception("No person was found with this id");
     }

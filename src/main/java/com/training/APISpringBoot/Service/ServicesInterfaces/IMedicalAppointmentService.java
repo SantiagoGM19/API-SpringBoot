@@ -6,7 +6,8 @@ import java.util.List;
 
 public interface IMedicalAppointmentService {
 
-    String saveMedicalAppointment(MedicalAppointment medicalAppointment) throws Exception;
+
+    MedicalAppointment saveMedicalAppointment(MedicalAppointment medicalAppointment);
 
     //this method should return the data related with person too
     List<MedicalAppointment> getAllMedicalAppointments();

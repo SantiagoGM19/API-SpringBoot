@@ -12,11 +12,11 @@ import java.util.Optional;
 public class DoctorService implements IDoctorService {
 
     @Autowired
-    DoctorRepository doctorRepository;
+    private DoctorRepository doctorRepository;
 
     @Override
-    public void saveDoctor(Doctor doctor) {
-        doctorRepository.save(doctor);
+    public Doctor saveDoctor(Doctor doctor) {
+        return doctorRepository.save(doctor);
     }
 
     @Override
@@ -25,16 +25,16 @@ public class DoctorService implements IDoctorService {
     }
 
     @Override
-    public Optional<Doctor> getOneDoctor(Long id) throws Exception {
+    public Doctor getOneDoctor(Long id) throws Exception {
         Optional<Doctor> doctor = doctorRepository.findById(id);
         if(!doctor.isEmpty()){
-            return doctor;
+            return doctor.get();
         }
         throw new Exception("No doctor was found with this id");
     }
 
     @Override
-    public void updateSpecialization(Doctor doctor) {
+    public void updateDoctor(Doctor doctor) {
         doctorRepository.save(doctor);
     }
 

@@ -1,10 +1,15 @@
 package com.training.APISpringBoot.Entity;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import org.hibernate.annotations.Fetch;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.print.Doc;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,31 +22,36 @@ public class MedicalAppointment {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    private Long fkPatientId;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "patient_id")
-    private Patient patient;
+    private Long fkDoctorId;
+
+    @OneToOne(
+            cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER,
+            targetEntity = Patient.class
+    )
+    List<Patient> patients = new ArrayList<>();
 
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "doctor_id")
-    private Doctor doctor;
+    @OneToOne(
+            cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER,
+            targetEntity = Doctor.class
+    )
+    List<Doctor> doctors = new ArrayList<>();
 
-    private LocalDateTime fecha;
+    private String date;
 
     private String appointmentType;
 
-    private List<Doctor> doctors = new ArrayList<>();
-
-    private List<Patient> patients = new ArrayList<>();
-
-    public MedicalAppointment addDoctors(Doctor doctor){
-        this.doctors.add(doctor);
+    public MedicalAppointment addPatient(Patient patient){
+        this.patients.add(patient);
         return this;
     }
 
-    public MedicalAppointment addPatient(Patient patient){
-        this.patients.add(patient);
+    public MedicalAppointment addDoctor(Doctor doctor){
+        this.doctors.add(doctor);
         return this;
     }
 
